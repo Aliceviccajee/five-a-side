@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import Team from "./Team";
+
 
 class Players extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = { 
-			array: [],
 			value: ''
 		};
 
@@ -18,24 +19,29 @@ class Players extends Component {
 		this.setState({ value: e.target.value });
 	}
 
-	handleClicked() {
+	handleClicked(e) {
+		e.preventDefault()
+		{this.state.value.length < 1 ? null :
+		this.props.onSubmit(this.state.value);
 		this.setState({ 
-			array: this.state.array.concat([this.state.value]),
 			value: ''
-		})
+		})	
+		}
 	}
 
 	render() {
-		const {list} = this.state
 		return (
 			<React.Fragment>
-				<input onChange={ this.update } value={ this.state.value }/>
-				<button onClick={ this.handleClicked }>Add A Player</button>
+				<form onSubmit = { this.handleClicked }>
+					<input onChange={ this.update } value={ this.state.value }/>
+					<button>Add A Player</button>
+				</form>
 				<ul>
-					{this.state.array.map((string , index) => { 
-						return <li key={index}>{string}</li>
+					{this.props.players.map((player , index) => { 
+						return <li key={player.id}>{player.name}</li>
 					})}
 				</ul>
+
 			</React.Fragment>
 			)
 	}
@@ -43,12 +49,12 @@ class Players extends Component {
 
 }
 export default Players;
-
-
-
-
 // Create a <List> component that consists of a <ul>, 
 // an <input>, and a <button>Add</button>. 
 // When you click the "Add" button, whatever is in the 
 // <input> should get added to the <ul>.
+
+
+
+
 
