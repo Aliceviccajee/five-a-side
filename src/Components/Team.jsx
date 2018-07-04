@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Players from "./Players";
+import { shuffle } from "../Data/shuffle";
 
 class Team extends Component {
 
@@ -13,19 +13,24 @@ class Team extends Component {
 	}
 
 	handleClicked() {
+		
 		this.setState({ array: this.state.array.concat(this.props.team) });
 	}
 
 	render() {
-		console.log(this.state.array)
+		const array2 = shuffle(this.state.array)
 		return (
 			<React.Fragment>
 				<button onClick={ this.handleClicked }>Create Your Teams</button>
+				{array2.length > 10 ? 
 				<ul>
-					{this.state.array.map((player, index) => { 
+					{array2.map((player, index) => { 
 						return <li key={player.id}>{player.name}</li>
 					})}
 				</ul>
+				:
+				<p>Not enough Players</p>
+				}
 			</React.Fragment>
 		)
 	}

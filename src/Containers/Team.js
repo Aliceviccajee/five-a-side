@@ -1,5 +1,5 @@
-import React from "react";
-import Players from "../Components/Players";
+//import React from "react";
+//import Players from "../Components/Players";
 import Team from "../Components/Team";
 import { connect } from "react-redux";
 
