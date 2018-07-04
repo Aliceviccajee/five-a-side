@@ -50,7 +50,6 @@ class Players extends Component {
 
     const { players } = this.props;
     const { value } = this.state;
-    const array2 = shuffle(this.state.players)
 	return(
 
       <React.Fragment>
@@ -68,12 +67,14 @@ class Players extends Component {
                 { players.name }
               </li>
             ))}</ul>
-
             <div style={{ textAlign: "center", marginBottom: "25px" }}>
 	            <button onClick={ this.handleClicked } 
 	            className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
+            </div>
+            
+            <div style={{ textAlign: "center", marginBottom: "25px" }}>
            
-            <div class="alert alert-primary">
+            <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
 	          	<ul>
 		            {team1.map((player, index) => { 
 		              return <li key={player.id}>{player.name}</li>
@@ -81,7 +82,7 @@ class Players extends Component {
 	          	</ul>
 	           </div>
 
-            <div class="alert alert-secondary">
+            <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
               <ul>
                 {team2.map((player, index) => { 
                   return <li key={player.id}>{player.name}</li>
