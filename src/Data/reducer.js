@@ -15,12 +15,42 @@ const setTeams = (state, { id, name }) => {
 	}
 }
 
+const editPlayer = (state, {id, task}) => {
+
+  let player = state.players.slice()
+
+  let newPlayers = player.map(player => {
+    if (player.id === player.id) {
+      return player
+    } else {
+      return newPlayers
+    }
+  })
+	return {
+    ...state,
+    tasks: newPlayers
+  };
+};
+
+
+const removePlayer = (state, { id }) => {
+  let players = state.players.slice()
+  let newPlayers = players.filter(newPlayers => newPlayers.id !== id)
+	return {
+    ...state,
+    players: newPlayers
+  };
+};
+
+
 const reducer = (state, action) => {
     switch (action.type) {
+    	case "removePlayer": return removePlayer(state, action);
     	case "setPlayer": return setPlayer(state, action);
     	case "setTeams": return setTeams(state, action);
         default: return state;
     }
 }
+
 
 export default reducer;

@@ -9,10 +9,13 @@ class Players extends Component {
       value: "",
       players: []
     } 
+//set initail state to empty
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClicked = this.handleClicked.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   handleChange(e) {
@@ -21,15 +24,36 @@ class Players extends Component {
       value: input
     })
   }
+  //input a player
 
-  handleClicked() {
-    this.setState({ players: this.state.players.concat(this.props.players) });
+  handleEdit(e) {
+    this.setState({
+      editing: true,
+    })
+    let edit = e.target.value
+    this.setState({
+      value: edit
+    })
   }
 
-//local function that takes the input value and assigns it to state value.
+  //edit a player
+
+  handleDelete(id) {
+    this.props.onDelete(id);
+  }
+
+  //delete a player
+
+  handleClicked() {
+      this.setState({ players: this.state.players.concat(this.props.players) });
+  }
+  //takes the array of player(s) thats been passed in through the input and creates an array called players
 
   handleSubmit(e) {
     e.preventDefault();
+      this.setState({
+        players: shuffle(this.state.players)
+      })
     if (this.state.value.length >= 1) { 
       let data = this.state.value;
       this.props.onSubmit(data);
@@ -41,15 +65,23 @@ class Players extends Component {
         value: ""
       })
   }}
+    
+  //const teams = shuffle(this.state.players);
 
+
+  //adds an enter function that prevents a li being added if the inout fields is empty. 
+  //sets the value of input back to nothing
 
   render() {
 
-    const team1 = shuffle(this.state.players).filter((name, index) => index % 2 === 0);
-    const team2 = shuffle(this.state.players).filter((name, index) => index % 2 !== 0);
+    const teams = this.state.players;
+    const team1 = teams.filter((player, id) => id % 2 !== 0);
+    const team2 = teams.filter((player, id) => id % 2 === 0);
+    //takes the shuffled array of players then slices it into two teams
 
     const { players } = this.props;
     const { value } = this.state;
+
 	return(
 
       <React.Fragment>
@@ -57,40 +89,47 @@ class Players extends Component {
         <form style={{ textAlign: "center", marginBottom: "25px" }} onSubmit={ this.handleSubmit }>
           
           <label htmlFor="players" style={{ display: "block" }}>Add a Player: </label>
-          <input id="players" onChange={ this.handleChange } value={ value }></input>
+          <input className="form-control" style={{ width: "40%" }} id="players" onChange={ this.handleChange } value={ value }></input>
           <button className="btn btn-outline-success" style={{ margin: "4px" }}>Add</button>
+
         </form>  
           
-          <ul className="list-group">
-            { players.map(players => (
-              <li className="list-group-item" key={ players.id }>
-                { players.name }
-              </li>
-            ))}</ul>
-            <div style={{ textAlign: "center", marginBottom: "25px" }}>
-	            <button onClick={ this.handleClicked } 
-	            className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
-            </div>
+        <ul className="list-group">
+          { players.map(player => (
+            <li className="list-group-item" key={ player.id }>
+              { player.name }
+              <button onClick={ () => this.handleDelete(player.id) } style={{ float:"right", margin: "4px" }} className="btn btn-outline-danger">Delete</button>
+            </li>))}
+        </ul>
+
+
+
+
+        <div style={{ textAlign: "center", marginBottom: "25px" }}>
+          <button onClick={ this.handleClicked } 
+          className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
+        </div>
             
-            <div style={{ textAlign: "center", marginBottom: "25px" }}>
+        <div style={{ textAlign: "center", marginBottom: "25px" }}>
            
-            <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
-	          	<ul>
-		            {team1.map((player, index) => { 
-		              return <li key={player.id}>{player.name}</li>
-		            })}
-	          	</ul>
-	           </div>
+          <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
+          	<ul>
+	            {team1.map((player, index) => { 
+	              return <li key={player.id}>{player.name}</li>
 
-            <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
-              <ul>
-                {team2.map((player, index) => { 
-                  return <li key={player.id}>{player.name}</li>
-                })}
-              </ul>
-            </div>
+	            })}
+          	</ul>
+	         </div>
 
-        	</div>
+          <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
+            <ul>
+              {team2.map((player, index) => { 
+              return <li key={player.id}>{player.name}</li>
+              })}
+            </ul>
+          </div>
+
+        </div>
       </React.Fragment>
     )
   }
@@ -98,3 +137,4 @@ class Players extends Component {
 
 
 export default Players;
+

@@ -13,8 +13,7 @@ const store = createStore(reducer, initial, window.__REDUX_DEVTOOLS_EXTENSION__ 
 
 ReactDOM.render(
     <Provider store={ store }>
-
-            <App />
+		<App />
     </Provider>,
     document.getElementById("root"),
 );

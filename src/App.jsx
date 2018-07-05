@@ -9,7 +9,7 @@ const App = () => (
     { /* header should show on all pages */ }
     <header><h1 style={{ textAlign: "center" }} className="jumbotron">Five A Side</h1></header>
     <Players />
-    </React.Fragment>
+  </React.Fragment>
 );
 
 export default App;

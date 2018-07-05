@@ -1,4 +1,3 @@
-
 let lastID = 0;
 
 export const addPlayer = name => {
@@ -9,12 +8,20 @@ export const addPlayer = name => {
 		id: lastID,
 
 	};
-
 }
 
-export const createTeam = teams => {
+export const removePlayer = (id) => {
 	return {
-		type: "setTeam",
-		teams: teams,
+		type: "removePlayer",
+		id: id,
 	}
-};
+}
+
+export const editPlayer = (name, id) => {
+	return {
+		type: "editPlayer",
+		name: name,
+		id: id,
+	}
+}
+
