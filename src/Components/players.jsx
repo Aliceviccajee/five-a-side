@@ -45,15 +45,12 @@ class Players extends Component {
   //delete a player
 
   handleClicked() {
-      this.setState({ players: this.state.players.concat(this.props.players) });
+      this.setState({ players: shuffle(this.state.players.concat(this.props.players))});
   }
-  //takes the array of player(s) thats been passed in through the input and creates an array called players
+  //takes the inputted players, shuffles them, and then creates an array called players
 
   handleSubmit(e) {
     e.preventDefault();
-      this.setState({
-        players: shuffle(this.state.players)
-      })
     if (this.state.value.length >= 1) { 
       let data = this.state.value;
       this.props.onSubmit(data);
@@ -65,10 +62,7 @@ class Players extends Component {
         value: ""
       })
   }}
-    
-  //const teams = shuffle(this.state.players);
-
-
+  
   //adds an enter function that prevents a li being added if the inout fields is empty. 
   //sets the value of input back to nothing
 
@@ -89,7 +83,7 @@ class Players extends Component {
         <form style={{ textAlign: "center", marginBottom: "25px" }} onSubmit={ this.handleSubmit }>
           
           <label htmlFor="players" style={{ display: "block" }}>Add a Player: </label>
-          <input className="form-control" style={{ width: "40%" }} id="players" onChange={ this.handleChange } value={ value }></input>
+          <input style={{ margin: "auto", width: "40%", display: "block" }} className="form-control" id="players" onChange={ this.handleChange } value={ value }></input>
           <button className="btn btn-outline-success" style={{ margin: "4px" }}>Add</button>
 
         </form>  
@@ -106,7 +100,7 @@ class Players extends Component {
 
 
         <div style={{ textAlign: "center", marginBottom: "25px" }}>
-          <button onClick={ this.handleClicked } 
+          <button onClick={ this.handleClicked }
           className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
         </div>
             
@@ -114,17 +108,19 @@ class Players extends Component {
            
           <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
           	<ul>
+              <h2>Panthers</h2>
 	            {team1.map((player, index) => { 
-	              return <li key={player.id}>{player.name}</li>
-
+	              return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
 	            })}
           	</ul>
-	         </div>
+          </div>
+
 
           <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
             <ul>
+              <h2 style={{ textAlign: "center" }}>Lions</h2>
               {team2.map((player, index) => { 
-              return <li key={player.id}>{player.name}</li>
+              return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
               })}
             </ul>
           </div>
