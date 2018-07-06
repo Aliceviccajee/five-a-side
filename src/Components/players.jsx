@@ -15,7 +15,8 @@ class Players extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClicked = this.handleClicked.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.handleReshuffle = this.handleReshuffle.bind(this);
+    
   }
 
   handleChange(e) {
@@ -26,23 +27,16 @@ class Players extends Component {
   }
   //input a player
 
-  handleEdit(e) {
-    this.setState({
-      editing: true,
-    })
-    let edit = e.target.value
-    this.setState({
-      value: edit
-    })
+  handleReshuffle() {
+    let players = this.state.players
+    this.setState(shuffle(players));  
   }
-
-  //edit a player
 
   handleDelete(id) {
     this.props.onDelete(id);
   }
 
-  //delete a player
+
 
   handleClicked() {
       this.setState({ players: shuffle(this.state.players.concat(this.props.players))});
@@ -90,7 +84,7 @@ class Players extends Component {
           
         <ul className="list-group">
           { players.map(player => (
-            <li className="list-group-item" key={ player.id }>
+            <li className="list-group-item" style={{width: "50%", display: "block", margin: "auto"}} key={ player.id }>
               { player.name }
               <button onClick={ () => this.handleDelete(player.id) } style={{ float:"right", margin: "4px" }} className="btn btn-outline-danger">Delete</button>
             </li>))}
@@ -102,12 +96,14 @@ class Players extends Component {
         <div style={{ textAlign: "center", marginBottom: "25px" }}>
           <button onClick={ this.handleClicked }
           className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
+          <button onClick={ this.handleReshuffle }
+          className="btn btn-outline-success" style={{ margin: "4px" }}>Re-Shuffle</button>
         </div>
             
         <div style={{ textAlign: "center", marginBottom: "25px" }}>
            
           <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
-          	<ul>
+          	<ul style={{padding:"0"}}>
               <h2>Panthers</h2>
 	            {team1.map((player, index) => { 
 	              return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
@@ -117,7 +113,7 @@ class Players extends Component {
 
 
           <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
-            <ul>
+            <ul style={{padding:"0"}}>
               <h2 style={{ textAlign: "center" }}>Lions</h2>
               {team2.map((player, index) => { 
               return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
