@@ -17,11 +17,3 @@ export const removePlayer = (id) => {
 	}
 }
 
-export const editPlayer = (name, id) => {
-	return {
-		type: "editPlayer",
-		name: name,
-		id: id,
-	}
-}
-

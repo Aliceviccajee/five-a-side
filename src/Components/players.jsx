@@ -11,122 +11,117 @@ class Players extends Component {
     } 
 //set initail state to empty
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClicked = this.handleClicked.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleReshuffle = this.handleReshuffle.bind(this);
-    
-  }
+this.handleChange = this.handleChange.bind(this);
+this.handleSubmit = this.handleSubmit.bind(this);
+this.handleClicked = this.handleClicked.bind(this);
+this.handleDelete = this.handleDelete.bind(this);
+this.handleReshuffle = this.handleReshuffle.bind(this);
+}
 
-  handleChange(e) {
-    let input = e.target.value
+handleChange(e) {
+  let input = e.target.value
+  this.setState({
+    value: input
+  })
+}
+//input a player
+
+handleReshuffle() {
+  let players = this.state.players
+  this.setState(shuffle(players));  
+}
+
+handleDelete(id) {
+  this.props.onDelete(id);
+}
+
+handleClicked() {
+  this.setState({ players: shuffle(this.state.players.concat(this.props.players))});
+}
+//takes the inputted players, shuffles them, and then creates an array called players
+
+handleSubmit(e) {
+  e.preventDefault();
+  if (this.state.value.length >= 1) { 
+    let data = this.state.value;
+    this.props.onSubmit(data);
     this.setState({
-      value: input
+      value: ""
     })
-  }
-  //input a player
-
-  handleReshuffle() {
-    let players = this.state.players
-    this.setState(shuffle(players));  
-  }
-
-  handleDelete(id) {
-    this.props.onDelete(id);
-  }
-
-
-
-  handleClicked() {
-      this.setState({ players: shuffle(this.state.players.concat(this.props.players))});
-  }
-  //takes the inputted players, shuffles them, and then creates an array called players
-
-  handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.value.length >= 1) { 
-      let data = this.state.value;
-      this.props.onSubmit(data);
+  } else {
       this.setState({
-        value: ""
-      })
-    } else {
-        this.setState({
-        value: ""
-      })
-  }}
+      value: ""
+    })
+}}
+
+//adds an enter function that prevents a li being added if the inout fields is empty. 
+//sets the value of input back to nothing
+
+render() {
+
+  const teams = this.state.players;
+  const team1 = teams.filter((player, id) => id % 2 !== 0);
+  const team2 = teams.filter((player, id) => id % 2 === 0);
+  //takes the shuffled array of players then slices it into two teams
+
+  const { players } = this.props;
+  const { value } = this.state;
+
+
+return(
+  <React.Fragment>
+
+    <div style={{ textAlign: "center", marginBottom: "25px" }}> 
+      { players.length >= 10
+      ? (<button onClick={ this.handleClicked }
+         className="btn btn-outline-success" style={{ margin: "4px", fontFamily: "Anton" }}>Create your Teams</button>)
+       : (<button className="btn btn-outline-danger" style={{ margin: "4px", fontFamily: "Anton" }}>ADD 10 PLAYERS TO CREATE YOUR TEAMS</button>)
+      }
+    </div>
+        
+
+    <form style={{ textAlign: "center", marginBottom: "25px", display: "block" }} onSubmit={ this.handleSubmit }>
+      <input style={{ margin: "auto", width: "40%" }} className="form-control" id="players" onChange={ this.handleChange } value={ value }></input>
+      <button className="btn btn-outline-success" style={{ margin: "4px", fontFamily: "Anton" }}>ADD</button>
+    </form>
+      
+      <ul className="list-group">
+        { players.map(player => (
+          <li style={{ paddingLeft: "30px", margin: "none", width: "20%", float: "left", fontFamily: "Anton" }} 
+          key={ player.id }>
+            { player.name }
+            <button onClick={ () => this.handleDelete(player.id) } style={{ float:"right", marginRight: "60px", fontFamily: "Anton" }} 
+            className="btn btn-outline-danger">X</button>
+          </li>))} 
+      </ul>
   
-  //adds an enter function that prevents a li being added if the inout fields is empty. 
-  //sets the value of input back to nothing
+    <div style={{ textAlign: "center", marginBottom: "50px" }}>
+       
+    <div className="alert alert-primary float-left" style={{ margin: "20px", width: "35%" }}>
+    	<ul style={{padding:"0"}}>
+        <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 1  <i className="fas fa-football-ball"></i></h2>
+        {team1.map((player, index) => { 
+          return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
+        })}
+    	</ul>
+    </div>
 
-  render() {
+    <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "35%" }}>
+      <ul style={{padding:"0"}}>
+        <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 2    <i className
+        ="fas fa-football-ball"></i></h2>
+        {team2.map((player, index) => { 
+          return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
+        })}
+      </ul>
+    </div>
+    <button onClick={ this.handleReshuffle }
+      className="btn btn-info" style={{ letterSpacing: "2px", margin: "4px", fontFamily: "Anton" }}>RE-SHUFFLE</button>
 
-    const teams = this.state.players;
-    const team1 = teams.filter((player, id) => id % 2 !== 0);
-    const team2 = teams.filter((player, id) => id % 2 === 0);
-    //takes the shuffled array of players then slices it into two teams
-
-    const { players } = this.props;
-    const { value } = this.state;
-
-	return(
-
-      <React.Fragment>
-
-        <form style={{ textAlign: "center", marginBottom: "25px" }} onSubmit={ this.handleSubmit }>
-          
-          <label htmlFor="players" style={{ display: "block" }}>Add a Player: </label>
-          <input style={{ margin: "auto", width: "40%", display: "block" }} className="form-control" id="players" onChange={ this.handleChange } value={ value }></input>
-          <button className="btn btn-outline-success" style={{ margin: "4px" }}>Add</button>
-
-        </form>  
-          
-        <ul className="list-group">
-          { players.map(player => (
-            <li className="list-group-item" style={{width: "50%", display: "block", margin: "auto"}} key={ player.id }>
-              { player.name }
-              <button onClick={ () => this.handleDelete(player.id) } style={{ float:"right", margin: "4px" }} className="btn btn-outline-danger">Delete</button>
-            </li>))}
-        </ul>
-
-
-
-
-        <div style={{ textAlign: "center", marginBottom: "25px" }}>
-          <button onClick={ this.handleClicked }
-          className="btn btn-outline-success" style={{ margin: "4px" }}>Create your Teams</button>
-          <button onClick={ this.handleReshuffle }
-          className="btn btn-outline-success" style={{ margin: "4px" }}>Re-Shuffle</button>
-        </div>
-            
-        <div style={{ textAlign: "center", marginBottom: "25px" }}>
-           
-          <div className="alert alert-primary float-left" style={{ margin: "20px", width: "40%" }}>
-          	<ul style={{padding:"0"}}>
-              <h2>Panthers</h2>
-	            {team1.map((player, index) => { 
-	              return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
-	            })}
-          	</ul>
-          </div>
-
-
-          <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "40%" }}>
-            <ul style={{padding:"0"}}>
-              <h2 style={{ textAlign: "center" }}>Lions</h2>
-              {team2.map((player, index) => { 
-              return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
-              })}
-            </ul>
-          </div>
-
-        </div>
-      </React.Fragment>
-    )
-  }
+    </div>
+  </React.Fragment>
+)
+}
 };
 
-
 export default Players;
-
