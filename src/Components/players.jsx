@@ -72,7 +72,7 @@ return(
   <React.Fragment>
 
     <div style={{ textAlign: "center", marginBottom: "25px" }}> 
-      { players.length >= 10
+      { players.length == 10 
       ? (<button onClick={ this.handleClicked }
          className="btn btn-outline-success" style={{ margin: "4px", fontFamily: "Anton" }}>Create your Teams</button>)
        : (<button className="btn btn-outline-danger" style={{ margin: "4px", fontFamily: "Anton" }}>ADD 10 PLAYERS TO CREATE YOUR TEAMS</button>)
@@ -82,26 +82,28 @@ return(
 
     <form style={{ textAlign: "center", marginBottom: "25px", display: "block" }} onSubmit={ this.handleSubmit }>
       <input style={{ margin: "auto", width: "40%" }} className="form-control" id="players" onChange={ this.handleChange } value={ value }></input>
-      <button className="btn btn-outline-success" style={{ margin: "4px", fontFamily: "Anton" }}>ADD</button>
+      <button className="btn btn-outline-success" style={{ marginTop: "10px", fontFamily: "Anton" }}>ADD</button>
     </form>
       
-      <ul className="list-group">
+      <div style={{width:"100%"}}>
+      <ol className="list-group">
         { players.map(player => (
-          <li style={{ paddingLeft: "30px", margin: "none", width: "20%", float: "left", fontFamily: "Anton" }} 
+          <li style={{ width: "40%", paddingLeft: "30px", margin: "auto", marginTop: "5px", fontFamily: "Anton" }} 
           key={ player.id }>
             { player.name }
             <button onClick={ () => this.handleDelete(player.id) } style={{ float:"right", marginRight: "60px", fontFamily: "Anton" }} 
             className="btn btn-outline-danger">X</button>
           </li>))} 
-      </ul>
-  
+      </ol>
+      </div>
+
     <div style={{ textAlign: "center", marginBottom: "50px" }}>
        
     <div className="alert alert-primary float-left" style={{ margin: "20px", width: "35%" }}>
     	<ul style={{padding:"0"}}>
         <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 1  <i className="fas fa-football-ball"></i></h2>
         {team1.map((player, index) => { 
-          return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
+          return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
         })}
     	</ul>
     </div>
@@ -111,7 +113,7 @@ return(
         <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 2    <i className
         ="fas fa-football-ball"></i></h2>
         {team2.map((player, index) => { 
-          return <li style={{listStyleType: "none"}} key={player.id}>{player.name}</li>
+          return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
         })}
       </ul>
     </div>
