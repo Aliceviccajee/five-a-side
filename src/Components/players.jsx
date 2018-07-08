@@ -30,10 +30,12 @@ handleReshuffle() {
   let players = this.state.players
   this.setState(shuffle(players));  
 }
+//sets re-shuffle function to the re-shuffle button
 
 handleDelete(id) {
   this.props.onDelete(id);
 }
+//delete
 
 handleClicked() {
   this.setState({ players: shuffle(this.state.players.concat(this.props.players))});
@@ -54,7 +56,8 @@ handleSubmit(e) {
     })
 }}
 
-//adds an enter function that prevents a li being added if the inout fields is empty. 
+//adds an enter function that prevents a li being added if the inout field is empty.
+//passing this state value into the on submit function 
 //sets the value of input back to nothing
 
 render() {
@@ -66,26 +69,27 @@ render() {
 
   const { players } = this.props;
   const { value } = this.state;
-
+  //destructuring to make my code neater
 
 return(
   <React.Fragment>
 
     <div style={{ textAlign: "center", marginBottom: "25px" }}> 
-      { players.length == 10 
+      { players.length === 10 
       ? (<button onClick={ this.handleClicked }
          className="btn btn-outline-success" style={{ margin: "4px", fontFamily: "Anton" }}>Create your Teams</button>)
        : (<button className="btn btn-outline-danger" style={{ margin: "4px", fontFamily: "Anton" }}>ADD 10 PLAYERS TO CREATE YOUR TEAMS</button>)
       }
     </div>
+    {/*if the length of the array of players is 10 then we change the content of the button from "add ten players" to "Create your teams"*/}
         
-
     <form style={{ textAlign: "center", marginBottom: "25px", display: "block" }} onSubmit={ this.handleSubmit }>
       <input style={{ margin: "auto", width: "40%" }} className="form-control" id="players" onChange={ this.handleChange } value={ value }></input>
       <button className="btn btn-outline-success" style={{ marginTop: "10px", fontFamily: "Anton" }}>ADD</button>
     </form>
+    {/* sets the handle change to the add button, also sets the handle submit to the form so we have use of the enter button */}
       
-      <div style={{width:"100%"}}>
+    <div style={{width:"100%"}}>
       <ol className="list-group">
         { players.map(player => (
           <li style={{ width: "40%", paddingLeft: "30px", margin: "auto", marginTop: "5px", fontFamily: "Anton" }} 
@@ -95,35 +99,39 @@ return(
             className="btn btn-outline-danger">X</button>
           </li>))} 
       </ol>
-      </div>
+    </div>
+    {/* function that maps over my array to create a li for every object. li contains a delete function */}
 
     <div style={{ textAlign: "center", marginBottom: "50px" }}>
-       
-    <div className="alert alert-primary float-left" style={{ margin: "20px", width: "35%" }}>
-    	<ul style={{padding:"0"}}>
-        <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 1  <i className="fas fa-football-ball"></i></h2>
-        {team1.map((player, index) => { 
-          return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
-        })}
-    	</ul>
+         
+      <div className="alert alert-primary float-left" style={{ margin: "20px", width: "35%" }}>
+      	<ul style={{padding:"0"}}>
+          <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 1  <i className="fas fa-football-ball"></i></h2>
+          {team1.map((player, index) => { 
+            return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
+          })}
+      	</ul>
+      </div>
+      {/* Team 1 takes the even numbered id players and maps over them to create a list */}
+
+      <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "35%" }}>
+        <ul style={{padding:"0"}}>
+          <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 2    <i className
+          ="fas fa-football-ball"></i></h2>
+          {team2.map((player, index) => { 
+            return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
+          })}
+        </ul>
+      </div>
+      {/* Team 2 takes the odd numbered id players and maps over them to create a list */}
+
+      <button onClick={ this.handleReshuffle }
+        className="btn btn-info" style={{ letterSpacing: "2px", marginTop: "60px", fontFamily: "Anton" }}>RE-SHUFFLE</button>
+      {/* reshuffles the list if desired */}
     </div>
 
-    <div className="alert alert-secondary float-right" style={{ margin: "20px", width: "35%" }}>
-      <ul style={{padding:"0"}}>
-        <h2 style={{ textAlign: "center", fontFamily: "Anton" }}>TEAM 2    <i className
-        ="fas fa-football-ball"></i></h2>
-        {team2.map((player, index) => { 
-          return <li style={{listStyleType: "none", fontFamily: "Anton"}} key={player.id}>{player.name}</li>
-        })}
-      </ul>
-    </div>
-    <button onClick={ this.handleReshuffle }
-      className="btn btn-info" style={{ letterSpacing: "2px", margin: "4px", fontFamily: "Anton" }}>RE-SHUFFLE</button>
-
-    </div>
   </React.Fragment>
-)
-}
+  )}
 };
 
 export default Players;
